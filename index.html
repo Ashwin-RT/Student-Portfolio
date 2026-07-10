@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Student Portfolio</title>
+<style>
+  :root {
+    --ink: #14182B;
+    --navy: #1B2140;
+    --maroon: #6E1F24;
+    --gold: #C9A227;
+    --paper: #EFEAD9;
+    --card: #FFFFFF;
+    --line: #14182B;
+    --muted: #4A4A46;
+    --danger: #6E1F24;
+    --teal: #1B4D45;
+    --teal-bg: #D9E6E2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    font-weight: 600;
+  }
+  h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; }
+
+  .topbar {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 4px solid var(--gold);
+  }
+  .topbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .topbar .brand .mark {
+    width: 30px; height: 30px;
+    background: var(--gold);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 14px; color: var(--navy);
+  }
+  .topbar button {
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    background: var(--gold);
+    border: 2px solid var(--gold);
+    color: var(--navy);
+    padding: 8px 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .topbar button.secondary {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+  }
+  .topbar button:hover { opacity: 0.85; }
+
+  /* AUTH SCREENS */
+  #screen-auth { max-width: 400px; margin: 50px auto; padding: 0 16px; }
+  #screen-auth h1 { font-size: 24px; margin: 0 0 4px; text-align: center; }
+  #screen-auth p.sub { color: var(--muted); font-family: Arial, sans-serif; font-size: 13px; margin: 0 0 20px; text-align: center; font-weight: 700; }
+  .card {
+    background: var(--card);
+    border: 3px solid var(--line);
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 6px 6px 0 var(--gold);
+  }
+  .auth-tabs { display: flex; margin-bottom: 16px; border: 3px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .auth-tabs button {
+    flex: 1; padding: 10px; font-family: Arial, sans-serif; font-weight: 700; font-size: 13px;
+    background: var(--card); border: none; cursor: pointer; color: var(--ink);
+  }
+  .auth-tabs button.active { background: var(--navy); color: #fff; }
+  .auth-error { color: var(--danger); font-family: Arial, sans-serif; font-size: 12.5px; font-weight: 700; margin: -4px 0 10px; }
+
+  input, textarea, select {
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 10px;
+    border: 2px solid var(--line);
+    border-radius: 3px;
+    background: #fff;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  label {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn {
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 9px 16px;
+    border-radius: 3px;
+    border: 2px solid var(--ink);
+    background: var(--ink);
+    color: #fff;
+    cursor: pointer;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.gold { border-color: var(--gold); background: var(--gold); color: var(--navy); }
+  .btn.danger { border-color: var(--danger); background: transparent; color: var(--danger); font-size: 11.5px; padding: 5px 9px; }
+
+  #app { display: none; }
+  .layout { display: grid; grid-template-columns: 180px 1fr; min-height: calc(100vh - 50px); }
+  .sidebar {
+    background: var(--navy);
+    padding: 14px 0;
+    font-family: Arial, sans-serif;
+  }
+  .sidebar button {
+    display: block; width: 100%; text-align: left;
+    padding: 10px 18px; background: none; border: none;
+    font-size: 13px; font-weight: 700; color: #cfd2e0; cursor: pointer;
+    border-left: 4px solid transparent;
+  }
+  .sidebar button.active { border-left-color: var(--gold); background: rgba(255,255,255,0.08); color: #fff; }
+  .sidebar button:hover { background: rgba(255,255,255,0.05); }
+
+  .content { padding: 20px 28px; max-width: 700px; }
+  .content h2 { font-size: 19px; margin: 0 0 3px; }
+  .content p.hint { font-family: Arial, sans-serif; font-weight: 700; font-size: 12px; color: var(--muted); margin: 0 0 14px; }
+
+  .entry {
+    border: 2px solid var(--line);
+    border-radius: 4px;
+    padding: 10px 13px;
+    margin-bottom: 9px;
+    background: var(--card);
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+  }
+  .entry .info strong { display: block; font-size: 14px; }
+  .entry .info span { font-family: Arial, sans-serif; font-weight: 700; font-size: 12px; color: var(--muted); }
+  .entry .info a { font-family: Arial, sans-serif; font-size: 12px; color: var(--teal); font-weight: 700; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: Arial, sans-serif; font-weight: 700; font-size: 12px;
+    background: var(--teal-bg); color: var(--teal);
+    border: 2px solid var(--teal);
+    border-radius: 3px; padding: 5px 10px; margin: 0 6px 6px 0;
+  }
+  .tag button { background: none; border: none; color: var(--teal); cursor: pointer; font-size: 13px; line-height: 1; padding: 0; }
+
+  /* Public portfolio view */
+  #screen-public { display: none; max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; }
+  .p-header {
+    background: var(--navy); color: #fff;
+    border: 3px solid var(--line);
+    box-shadow: 6px 6px 0 var(--gold);
+    padding: 22px 24px; margin-bottom: 22px; border-radius: 4px;
+  }
+  .p-header h1 { font-size: 28px; margin: 0; color: #fff; }
+  .p-header .role { font-family: Arial, sans-serif; font-weight: 700; color: var(--gold); font-size: 13px; margin-top: 5px; }
+  .p-section { margin-bottom: 20px; }
+  .p-section h3 {
+    font-family: Arial, sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 1px;
+    text-transform: uppercase; color: #fff; background: var(--teal);
+    padding: 6px 10px; border-radius: 3px; margin-bottom: 10px; display: inline-block;
+  }
+  .p-bio { font-size: 14.5px; line-height: 1.6; font-weight: 600; }
+  .p-item { margin-bottom: 10px; border-left: 4px solid var(--gold); padding-left: 10px; }
+  .p-item strong { font-size: 15px; }
+  .p-item .meta { font-family: Arial, sans-serif; font-weight: 700; font-size: 12px; color: var(--muted); }
+  .p-item .desc { font-size: 13.5px; margin-top: 3px; line-height: 1.5; font-weight: 600; }
+  .empty-note { font-family: Arial, sans-serif; font-size: 12.5px; color: var(--muted); font-weight: 700; }
+
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--navy); color: #fff; border: 2px solid var(--gold);
+    padding: 11px 20px; border-radius: 4px; font-family: Arial, sans-serif;
+    font-weight: 700; font-size: 13.5px; opacity: 0; transition: all 0.25s ease;
+    pointer-events: none; z-index: 999; display: flex; align-items: center; gap: 8px;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+</style>
+</head>
+<body>
+
+<div id="toast"><span class="dot"></span><span id="toast-text">Saved</span></div>
+
+<!-- AUTH -->
+<div id="screen-auth">
+  <h1>Student Portfolio Builder</h1>
+  <p class="sub">Log in or create an account to manage your portfolio</p>
+  <div class="auth-tabs">
+    <button id="tab-login-btn" class="active" onclick="switchAuthTab('login')">Log in</button>
+    <button id="tab-register-btn" onclick="switchAuthTab('register')">Register</button>
+  </div>
+  <div class="card">
+    <div id="auth-error" class="auth-error" style="display:none;"></div>
+
+    <div id="auth-login">
+      <label>Username</label>
+      <input id="login-username" placeholder="e.g. ashwin18" />
+      <label>Password</label>
+      <input id="login-password" type="password" placeholder="Enter your password" />
+      <button class="btn gold" style="width:100%" onclick="login()">Log in</button>
+    </div>
+
+    <div id="auth-register" style="display:none;">
+      <label>Full name</label>
+      <input id="reg-name" placeholder="e.g. Ashwin Kumar" />
+      <label>Choose a username</label>
+      <input id="reg-username" placeholder="e.g. ashwin18" />
+      <label>Choose a password</label>
+      <input id="reg-password" type="password" placeholder="At least 4 characters" />
+      <label>Confirm password</label>
+      <input id="reg-password2" type="password" placeholder="Re-enter password" />
+      <button class="btn gold" style="width:100%" onclick="register()">Create account</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="brand"><span class="mark">P</span><span id="topbar-name">Portfolio</span></div>
+    <div style="display:flex; gap:8px;">
+      <button onclick="showPublic()">View my portfolio</button>
+      <button class="secondary" onclick="logout()">Log out</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <button data-tab="profile" onclick="showTab('profile')">Profile</button>
+      <button data-tab="education" onclick="showTab('education')">Education</button>
+      <button data-tab="skills" onclick="showTab('skills')">Skills</button>
+      <button data-tab="projects" onclick="showTab('projects')">Projects</button>
+      <button data-tab="certifications" onclick="showTab('certifications')">Certifications</button>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<!-- PUBLIC VIEW -->
+<div id="screen-public">
+  <button class="btn ghost" onclick="hidePublic()" style="margin-bottom:16px;">&larr; Back to editing</button>
+  <div id="public-render"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAYAJ5DlHxRXKnhqyJLNLVx6cVmMXHkmtY",
+  authDomain: "student-portfolio-8abb2.firebaseapp.com",
+  projectId: "student-portfolio-8abb2",
+  storageBucket: "student-portfolio-8abb2.firebasestorage.app",
+  messagingSenderId: "213867093206",
+  appId: "1:213867093206:web:0c0baf1edc1292265a3d77",
+  measurementId: "G-B21PXM0BYC"
+};
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const dbase = getFirestore(fbApp);
+
+// Firebase Auth needs an email, but our UI only asks for a username.
+// We turn the username into a fake-but-valid email behind the scenes.
+function usernameToEmail(username) {
+  return username.replace(/[^a-z0-9._-]/g, '') + '@student-portfolio.local';
+}
+
+let currentUser = null; // username, for display only
+let data = null;
+
+function emptyData(name) {
+  return {
+    name: name || '', bio: '', role: '',
+    education: [], skills: [], projects: [], certifications: []
+  };
+}
+
+function friendlyAuthError(err) {
+  const code = err && err.code;
+  if (code === 'auth/email-already-in-use') return 'That username is already taken.';
+  if (code === 'auth/weak-password') return 'Password must be at least 6 characters.';
+  if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+    return 'Incorrect username or password.';
+  }
+  if (code === 'auth/invalid-email') return 'Please choose a username using only letters, numbers, dots, dashes or underscores.';
+  if (code === 'auth/network-request-failed') return 'Network error — check your internet connection.';
+  if (code === 'auth/unauthorized-domain') return 'This website\'s address isn\'t authorized in Firebase yet. Add it under Authentication → Settings → Authorized domains.';
+  if (code === 'auth/configuration-not-found' || code === 'auth/operation-not-allowed') return 'Email/Password sign-in isn\'t enabled yet. Turn it on in Firebase under Authentication → Sign-in method.';
+  console.error('Auth error:', err);
+  return 'Something went wrong (' + (code || (err && err.message) || 'unknown error') + ').';
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function switchAuthTab(tab) {
+  showAuthError('');
+  document.getElementById('tab-login-btn').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register-btn').classList.toggle('active', tab === 'register');
+  document.getElementById('auth-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('auth-register').style.display = tab === 'register' ? 'block' : 'none';
+}
+
+async function register() {
+  showAuthError('');
+  const name = document.getElementById('reg-name').value.trim();
+  const username = document.getElementById('reg-username').value.trim().toLowerCase();
+  const pw = document.getElementById('reg-password').value;
+  const pw2 = document.getElementById('reg-password2').value;
+
+  if (!name || !username || !pw) return showAuthError('Fill in all fields.');
+  if (pw.length < 6) return showAuthError('Password must be at least 6 characters.');
+  if (pw !== pw2) return showAuthError('Passwords do not match.');
+
+  const regBtn = document.querySelector('#auth-register .btn.gold');
+  regBtn.disabled = true; regBtn.textContent = 'Creating account…';
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, usernameToEmail(username), pw);
+    currentUser = username;
+    data = emptyData(name);
+    data.username = username;
+    await setDoc(doc(dbase, 'portfolios', cred.user.uid), data);
+    enterApp();
+  } catch (err) {
+    showAuthError(friendlyAuthError(err));
+  } finally {
+    regBtn.disabled = false; regBtn.textContent = 'Create account';
+  }
+}
+
+async function login() {
+  showAuthError('');
+  const username = document.getElementById('login-username').value.trim().toLowerCase();
+  const pw = document.getElementById('login-password').value;
+  if (!username || !pw) return showAuthError('Enter your username and password.');
+
+  const loginBtn = document.querySelector('#auth-login .btn.gold');
+  loginBtn.disabled = true; loginBtn.textContent = 'Logging in…';
+  try {
+    const cred = await signInWithEmailAndPassword(auth, usernameToEmail(username), pw);
+    currentUser = username;
+    const snap = await getDoc(doc(dbase, 'portfolios', cred.user.uid));
+    data = snap.exists() ? snap.data() : emptyData(username);
+    enterApp();
+  } catch (err) {
+    showAuthError(friendlyAuthError(err));
+  } finally {
+    loginBtn.disabled = false; loginBtn.textContent = 'Log in';
+  }
+}
+
+function enterApp() {
+  document.getElementById('screen-auth').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('topbar-name').textContent = data.name || currentUser;
+  showTab('profile');
+}
+
+async function logout() {
+  await signOut(auth);
+  currentUser = null; data = null;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('screen-public').style.display = 'none';
+  document.getElementById('screen-auth').style.display = 'block';
+  document.getElementById('login-username').value = '';
+  document.getElementById('login-password').value = '';
+  switchAuthTab('login');
+}
+
+// Keeps you logged in across refreshes / devices — Firebase restores the
+// session automatically, we just need to reload the portfolio data.
+onAuthStateChanged(auth, async (user) => {
+  if (user && !currentUser) {
+    const snap = await getDoc(doc(dbase, 'portfolios', user.uid));
+    if (snap.exists()) {
+      data = snap.data();
+      currentUser = data.username || (user.email || '').split('@')[0];
+      enterApp();
+    }
+  }
+});
+
+let toastTimer = null;
+function showToast(msg, isError) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = msg;
+  toast.style.borderColor = isError ? 'var(--danger)' : 'var(--gold)';
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+async function save(showConfirmation) {
+  try {
+    const uid = auth.currentUser && auth.currentUser.uid;
+    if (!uid) throw new Error('not-logged-in');
+    await setDoc(doc(dbase, 'portfolios', uid), data);
+    if (showConfirmation !== false) showToast('Saved');
+  } catch (e) {
+    if (showConfirmation !== false) showToast('Could not save. Try again.', true);
+  }
+}
+
+let activeTab = 'profile';
+function showTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.sidebar button').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  render();
+}
+
+function render() {
+  const el = document.getElementById('content');
+  if (activeTab === 'profile') {
+    el.innerHTML = `
+      <h2>Profile</h2>
+      <p class="hint">This is the intro of your portfolio.</p>
+      <label>Full name</label>
+      <input id="f-name" value="${esc(data.name)}" />
+      <label>Role / tagline (e.g. First-year IT Student)</label>
+      <input id="f-role" value="${esc(data.role)}" />
+      <label>Short bio</label>
+      <textarea id="f-bio" rows="5">${esc(data.bio)}</textarea>
+      <button class="btn gold" onclick="saveProfile()">Save profile</button>
+    `;
+  } else if (activeTab === 'education') {
+    el.innerHTML = `
+      <h2>Education</h2>
+      <p class="hint">Add your college, degree, and year.</p>
+      ${listHtml(data.education, e => `
+        <div class="info">
+          <strong>${esc(e.degree)}</strong>
+          <span>${esc(e.college)} &middot; ${esc(e.year)}</span>
+        </div>
+      `, 'education')}
+      <div class="card" style="margin-top:14px; box-shadow:none;">
+        <div class="field-row">
+          <div><label>Degree / course</label><input id="e-degree" placeholder="B.Tech IT" /></div>
+          <div><label>Year</label><input id="e-year" placeholder="2025 - 2029" /></div>
+        </div>
+        <label>College / institution</label>
+        <input id="e-college" placeholder="VSB Engineering College" />
+        <button class="btn" onclick="addEducation()">Add education</button>
+      </div>
+    `;
+  } else if (activeTab === 'skills') {
+    el.innerHTML = `
+      <h2>Skills</h2>
+      <p class="hint">Add technical or soft skills, one at a time.</p>
+      <div style="margin-bottom:16px;">
+        ${data.skills.map((s, i) => `<span class="tag">${esc(s)}<button onclick="removeItem('skills', ${i})">&times;</button></span>`).join('') || '<span class="empty-note">No skills added yet.</span>'}
+      </div>
+      <div class="card" style="box-shadow:none;">
+        <label>Skill name</label>
+        <input id="s-name" placeholder="e.g. Python, Public Speaking" />
+        <button class="btn" onclick="addSkill()">Add skill</button>
+      </div>
+    `;
+  } else if (activeTab === 'projects') {
+    el.innerHTML = `
+      <h2>Projects</h2>
+      <p class="hint">Showcase things you've built.</p>
+      ${listHtml(data.projects, p => `
+        <div class="info">
+          <strong>${esc(p.title)}</strong>
+          <span>${esc(p.tech)}</span><br/>
+          <span>${esc(p.desc)}</span>
+          ${p.link ? `<br/><a href="${esc(p.link)}" target="_blank">${esc(p.link)}</a>` : ''}
+        </div>
+      `, 'projects')}
+      <div class="card" style="margin-top:14px; box-shadow:none;">
+        <label>Project title</label>
+        <input id="p-title" placeholder="e.g. Student Portfolio Website" />
+        <label>Tech used</label>
+        <input id="p-tech" placeholder="e.g. HTML, CSS, JavaScript" />
+        <label>Description</label>
+        <textarea id="p-desc" rows="3" placeholder="What does it do?"></textarea>
+        <label>Link (optional)</label>
+        <input id="p-link" placeholder="https://github.com/..." />
+        <button class="btn" onclick="addProject()">Add project</button>
+      </div>
+    `;
+  } else if (activeTab === 'certifications') {
+    el.innerHTML = `
+      <h2>Certifications</h2>
+      <p class="hint">Courses, certificates, or workshops you've completed.</p>
+      ${listHtml(data.certifications, c => `
+        <div class="info">
+          <strong>${esc(c.title)}</strong>
+          <span>${esc(c.issuer)} &middot; ${esc(c.date)}</span>
+        </div>
+      `, 'certifications')}
+      <div class="card" style="margin-top:14px; box-shadow:none;">
+        <div class="field-row">
+          <div><label>Certificate title</label><input id="c-title" placeholder="e.g. Python for Everybody" /></div>
+          <div><label>Date</label><input id="c-date" placeholder="March 2026" /></div>
+        </div>
+        <label>Issued by</label>
+        <input id="c-issuer" placeholder="e.g. Coursera, NPTEL" />
+        <button class="btn" onclick="addCert()">Add certification</button>
+      </div>
+    `;
+  }
+}
+
+function listHtml(arr, renderFn, key) {
+  if (!arr.length) return '<p class="empty-note">Nothing added yet.</p>';
+  return arr.map((item, i) => `
+    <div class="entry">
+      ${renderFn(item)}
+      <button class="btn danger" onclick="removeItem('${key}', ${i})">Remove</button>
+    </div>
+  `).join('');
+}
+
+function esc(s) {
+  return (s || '').toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+async function saveProfile() {
+  data.name = document.getElementById('f-name').value.trim();
+  data.role = document.getElementById('f-role').value.trim();
+  data.bio = document.getElementById('f-bio').value.trim();
+  document.getElementById('topbar-name').textContent = data.name || currentUser;
+  await save();
+}
+
+async function addEducation() {
+  const degree = document.getElementById('e-degree').value.trim();
+  const college = document.getElementById('e-college').value.trim();
+  const year = document.getElementById('e-year').value.trim();
+  if (!degree || !college) return;
+  data.education.push({ degree, college, year });
+  await save(); render();
+}
+
+async function addSkill() {
+  const name = document.getElementById('s-name').value.trim();
+  if (!name) return;
+  data.skills.push(name);
+  await save(); render();
+}
+
+async function addProject() {
+  const title = document.getElementById('p-title').value.trim();
+  const tech = document.getElementById('p-tech').value.trim();
+  const desc = document.getElementById('p-desc').value.trim();
+  const link = document.getElementById('p-link').value.trim();
+  if (!title) return;
+  data.projects.push({ title, tech, desc, link });
+  await save(); render();
+}
+
+async function addCert() {
+  const title = document.getElementById('c-title').value.trim();
+  const issuer = document.getElementById('c-issuer').value.trim();
+  const date = document.getElementById('c-date').value.trim();
+  if (!title) return;
+  data.certifications.push({ title, issuer, date });
+  await save(); render();
+}
+
+async function removeItem(key, index) {
+  data[key].splice(index, 1);
+  await save(); render();
+}
+
+function showPublic() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('screen-public').style.display = 'block';
+  renderPublic();
+}
+function hidePublic() {
+  document.getElementById('screen-public').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+function renderPublic() {
+  const el = document.getElementById('public-render');
+  el.innerHTML = `
+    <div class="p-header">
+      <h1>${esc(data.name) || 'Your Name'}</h1>
+      <div class="role">${esc(data.role) || 'Add a tagline in your Profile tab'}</div>
+    </div>
+    ${data.bio ? `<div class="p-section"><h3>About</h3><p class="p-bio">${esc(data.bio)}</p></div>` : ''}
+    <div class="p-section">
+      <h3>Education</h3>
+      ${data.education.length ? data.education.map(e => `
+        <div class="p-item"><strong>${esc(e.degree)}</strong><div class="meta">${esc(e.college)} &middot; ${esc(e.year)}</div></div>
+      `).join('') : '<p class="empty-note">No education added yet.</p>'}
+    </div>
+    <div class="p-section">
+      <h3>Skills</h3>
+      ${data.skills.length ? data.skills.map(s => `<span class="tag">${esc(s)}</span>`).join('') : '<p class="empty-note">No skills added yet.</p>'}
+    </div>
+    <div class="p-section">
+      <h3>Projects</h3>
+      ${data.projects.length ? data.projects.map(p => `
+        <div class="p-item">
+          <strong>${esc(p.title)}</strong>
+          <div class="meta">${esc(p.tech)}</div>
+          <div class="desc">${esc(p.desc)}</div>
+          ${p.link ? `<div class="meta"><a href="${esc(p.link)}" target="_blank" style="color:var(--teal)">${esc(p.link)}</a></div>` : ''}
+        </div>
+      `).join('') : '<p class="empty-note">No projects added yet.</p>'}
+    </div>
+    <div class="p-section">
+      <h3>Certifications</h3>
+      ${data.certifications.length ? data.certifications.map(c => `
+        <div class="p-item"><strong>${esc(c.title)}</strong><div class="meta">${esc(c.issuer)} &middot; ${esc(c.date)}</div></div>
+      `).join('') : '<p class="empty-note">No certifications added yet.</p>'}
+    </div>
+  `;
+}
+// Inline onclick="..." handlers below need these on window,
+// since a type="module" script doesn't leak names into global scope.
+window.switchAuthTab = switchAuthTab;
+window.login = login;
+window.register = register;
+window.logout = logout;
+window.showPublic = showPublic;
+window.hidePublic = hidePublic;
+window.showTab = showTab;
+window.saveProfile = saveProfile;
+window.addEducation = addEducation;
+window.addSkill = addSkill;
+window.addProject = addProject;
+window.addCert = addCert;
+window.removeItem = removeItem;
+</script>
+</body>
+</html>
