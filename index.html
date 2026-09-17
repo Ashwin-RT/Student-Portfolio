@@ -129,7 +129,7 @@
   .btn.danger { border-color: var(--danger); background: transparent; color: var(--danger); font-size: 11.5px; padding: 5px 9px; }
 
   #app { display: none; }
-  .layout { display: grid; grid-template-columns: 180px 1fr; min-height: calc(100vh - 50px); }
+  .layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); min-height: calc(100vh - 50px); }
   .sidebar {
     background: var(--navy);
     padding: 14px 0;
@@ -144,7 +144,7 @@
   .sidebar button.active { border-left-color: var(--gold); background: rgba(255,255,255,0.08); color: #fff; }
   .sidebar button:hover { background: rgba(255,255,255,0.05); }
 
-  .content { padding: 20px 28px; max-width: 700px; }
+  .content { width: min(100%, 1080px); padding: 26px 34px 38px; }
   .content h2 { font-size: 19px; margin: 0 0 3px; }
   .content p.hint { font-family: Arial, sans-serif; font-weight: 700; font-size: 12px; color: var(--muted); margin: 0 0 14px; }
 
@@ -154,13 +154,34 @@
     padding: 10px 13px;
     margin-bottom: 9px;
     background: var(--card);
-    display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+    box-shadow: 3px 3px 0 rgba(201,162,39,0.28);
   }
   .entry .info strong { display: block; font-size: 14px; }
   .entry .info span { font-family: Arial, sans-serif; font-weight: 700; font-size: 12px; color: var(--muted); }
   .entry .info a { font-family: Arial, sans-serif; font-size: 12px; color: var(--teal); font-weight: 700; }
 
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .entry-actions { display: flex; gap: 7px; flex: none; }
+  .entry-actions .btn { white-space: nowrap; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-card { padding: 18px; }
+  .form-card .btn { margin-top: 3px; margin-right: 7px; }
+
+  .overview {
+    border: 3px solid var(--line); border-radius: 4px; background: var(--navy); color: #fff;
+    box-shadow: 6px 6px 0 var(--gold); padding: 18px 20px; margin: 0 0 22px;
+  }
+  .overview h3 { margin: 0 0 3px; font-size: 20px; color: #fff; }
+  .overview p { margin: 0; color: #dfe3f1; font-family: Arial, sans-serif; font-size: 12.5px; font-weight: 700; }
+  .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 15px; }
+  .overview-stat { border: 2px solid rgba(255,255,255,0.45); border-radius: 3px; padding: 9px 10px; background: rgba(255,255,255,0.06); }
+  .overview-stat strong { display: block; color: var(--gold); font-family: Georgia, serif; font-size: 21px; line-height: 1; }
+  .overview-stat span { font-family: Arial, sans-serif; font-size: 10.5px; font-weight: 800; letter-spacing: .35px; text-transform: uppercase; }
+  .completion { margin-top: 13px; display: flex; align-items: center; gap: 9px; font-family: Arial, sans-serif; font-size: 11.5px; font-weight: 700; }
+  .completion-bar { flex: 1; height: 8px; border: 1px solid rgba(255,255,255,.55); background: rgba(255,255,255,.14); border-radius: 10px; overflow: hidden; }
+  .completion-bar span { display: block; height: 100%; background: var(--gold); }
+  .empty-state { border: 2px dashed var(--gold); border-radius: 4px; background: #fffdf5; padding: 16px; margin: 0 0 14px; }
+  .empty-state p { margin: 0 0 10px; font-family: Arial, sans-serif; font-size: 12.5px; color: var(--muted); }
 
   .tag {
     display: inline-flex; align-items: center; gap: 6px;
@@ -170,6 +191,12 @@
     border-radius: 3px; padding: 5px 10px; margin: 0 6px 6px 0;
   }
   .tag button { background: none; border: none; color: var(--teal); cursor: pointer; font-size: 13px; line-height: 1; padding: 0; }
+  .skill-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+  .skill-card { display: flex; align-items: center; gap: 8px; padding: 7px 8px 7px 10px; border: 2px solid var(--teal); border-radius: 3px; background: var(--teal-bg); }
+  .skill-card strong { color: var(--teal); font-family: Arial, sans-serif; font-size: 13px; }
+  .skill-card .btn { font-size: 11.5px; padding: 5px 8px; }
+  .skill-card .btn.danger { background: #fff8f6; }
+  .edit-note { margin: 0 0 12px; padding: 8px 10px; border-left: 4px solid var(--gold); background: #fff9e7; color: var(--muted); font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; }
 
   /* Public portfolio view */
   #screen-public { display: none; max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; }
@@ -181,18 +208,30 @@
   }
   .p-header h1 { font-size: 28px; margin: 0; color: #fff; }
   .p-header .role { font-family: Arial, sans-serif; font-weight: 700; color: var(--gold); font-size: 13px; margin-top: 5px; }
-  .p-section { margin-bottom: 20px; }
+  .p-section { margin-bottom: 16px; background: rgba(255,255,255,.72); border: 2px solid var(--line); border-radius: 4px; padding: 13px 15px; }
   .p-section h3 {
     font-family: Arial, sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 1px;
     text-transform: uppercase; color: #fff; background: var(--teal);
     padding: 6px 10px; border-radius: 3px; margin-bottom: 10px; display: inline-block;
   }
   .p-bio { font-size: 14.5px; line-height: 1.6; font-weight: 600; }
-  .p-item { margin-bottom: 10px; border-left: 4px solid var(--gold); padding-left: 10px; }
+  .p-item { margin-bottom: 12px; border-left: 4px solid var(--gold); padding: 2px 0 2px 10px; }
+  .p-item:last-child { margin-bottom: 0; }
   .p-item strong { font-size: 15px; }
   .p-item .meta { font-family: Arial, sans-serif; font-weight: 700; font-size: 12px; color: var(--muted); }
   .p-item .desc { font-size: 13.5px; margin-top: 3px; line-height: 1.5; font-weight: 600; }
   .empty-note { font-family: Arial, sans-serif; font-size: 12.5px; color: var(--muted); font-weight: 700; }
+
+  @media (max-width: 720px) {
+    .topbar { padding: 10px 14px; } .topbar .brand { font-size: 13px; } .topbar button { padding: 7px 9px; font-size: 11px; }
+    .layout { grid-template-columns: 1fr; } .sidebar { display: flex; overflow-x: auto; padding: 0; }
+    .sidebar button { width: auto; min-width: max-content; padding: 11px 14px; border-left: 0; border-bottom: 4px solid transparent; }
+    .sidebar button.active { border-left-color: transparent; border-bottom-color: var(--gold); }
+    .content { padding: 20px 16px 30px; } .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    .entry { flex-direction: column; gap: 10px; } .entry-actions { width: 100%; } .entry-actions .btn { flex: 1; }
+    .skill-list { display: grid; grid-template-columns: 1fr; } .skill-card { justify-content: space-between; } .skill-card .btn { min-width: 62px; }
+    .field-row { grid-template-columns: 1fr; gap: 0; } #screen-public { padding: 18px 14px 40px; }
+  }
 
   /* Toast */
   #toast {
@@ -204,11 +243,28 @@
   }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   #toast .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+  .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 1000; align-items: center; justify-content: center; padding: 18px; background: rgba(20,24,43,.62); }
+  .modal-backdrop.open { display: flex; }
+  .confirm-modal { width: min(100%, 400px); background: var(--paper); border: 3px solid var(--line); border-radius: 4px; box-shadow: 7px 7px 0 var(--gold); padding: 21px; }
+  .confirm-modal h3 { margin: 0 0 7px; font-size: 21px; color: var(--navy); }
+  .confirm-modal p { margin: 0 0 18px; color: var(--muted); font-family: Arial, sans-serif; font-size: 13px; line-height: 1.5; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 9px; }
+  .modal-actions .btn { min-width: 82px; }
 </style>
 </head>
 <body>
 
 <div id="toast"><span class="dot"></span><span id="toast-text">Saved</span></div>
+<div id="delete-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" aria-describedby="delete-modal-message">
+  <div class="confirm-modal">
+    <h3 id="delete-modal-title">Remove item?</h3>
+    <p id="delete-modal-message">Are you sure you want to remove this item from your portfolio?</p>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn danger" onclick="confirmDelete()">Remove</button>
+    </div>
+  </div>
+</div>
 
 <!-- AUTH -->
 <div id="screen-auth">
@@ -270,38 +326,12 @@
   <div id="public-render"></div>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signOut, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {
-  getFirestore, doc, getDoc, setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAYAJ5DlHxRXKnhqyJLNLVx6cVmMXHkmtY",
-  authDomain: "student-portfolio-8abb2.firebaseapp.com",
-  projectId: "student-portfolio-8abb2",
-  storageBucket: "student-portfolio-8abb2.firebasestorage.app",
-  messagingSenderId: "213867093206",
-  appId: "1:213867093206:web:0c0baf1edc1292265a3d77",
-  measurementId: "G-B21PXM0BYC"
-};
-const fbApp = initializeApp(firebaseConfig);
-const auth = getAuth(fbApp);
-const dbase = getFirestore(fbApp);
-
-// Firebase Auth needs an email, but our UI only asks for a username.
-// We turn the username into a fake-but-valid email behind the scenes.
-function usernameToEmail(username) {
-  return username.replace(/[^a-z0-9._-]/g, '') + '@student-portfolio.local';
-}
-
-let currentUser = null; // username, for display only
+<script>
+let currentUser = null;
 let data = null;
+let editState = null;
+let pendingDelete = null;
+const USERS_KEY = 'users-index';
 
 function emptyData(name) {
   return {
@@ -310,19 +340,43 @@ function emptyData(name) {
   };
 }
 
-function friendlyAuthError(err) {
-  const code = err && err.code;
-  if (code === 'auth/email-already-in-use') return 'That username is already taken.';
-  if (code === 'auth/weak-password') return 'Password must be at least 6 characters.';
-  if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
-    return 'Incorrect username or password.';
+// Each record gets an ID. IDs make editing/deleting reliable even if the list order changes.
+function makeId() {
+  return (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
+}
+
+// Old saved portfolios are upgraded automatically, so existing user data still works.
+function normaliseData(saved, fallbackName) {
+  const clean = { ...emptyData(fallbackName), ...(saved || {}) };
+  ['education', 'projects', 'certifications'].forEach(key => {
+    clean[key] = Array.isArray(clean[key]) ? clean[key].map(item => ({ ...item, id: item.id || makeId() })) : [];
+  });
+  clean.skills = Array.isArray(clean.skills) ? clean.skills.map(skill =>
+    typeof skill === 'string' ? { id: makeId(), name: skill } : { ...skill, id: skill.id || makeId(), name: skill.name || '' }
+  ) : [];
+  return clean;
+}
+
+/* very simple non-cryptographic hash — fine for a college demo, not for real security */
+function simpleHash(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
   }
-  if (code === 'auth/invalid-email') return 'Please choose a username using only letters, numbers, dots, dashes or underscores.';
-  if (code === 'auth/network-request-failed') return 'Network error — check your internet connection.';
-  if (code === 'auth/unauthorized-domain') return 'This website\'s address isn\'t authorized in Firebase yet. Add it under Authentication → Settings → Authorized domains.';
-  if (code === 'auth/configuration-not-found' || code === 'auth/operation-not-allowed') return 'Email/Password sign-in isn\'t enabled yet. Turn it on in Firebase under Authentication → Sign-in method.';
-  console.error('Auth error:', err);
-  return 'Something went wrong (' + (code || (err && err.message) || 'unknown error') + ').';
+  return hash.toString(16);
+}
+
+async function getUsers() {
+  try {
+    const raw = localStorage.getItem(USERS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+async function saveUsers(users) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
 function showAuthError(msg) {
@@ -347,23 +401,19 @@ async function register() {
   const pw2 = document.getElementById('reg-password2').value;
 
   if (!name || !username || !pw) return showAuthError('Fill in all fields.');
-  if (pw.length < 6) return showAuthError('Password must be at least 6 characters.');
+  if (pw.length < 4) return showAuthError('Password must be at least 4 characters.');
   if (pw !== pw2) return showAuthError('Passwords do not match.');
 
-  const regBtn = document.querySelector('#auth-register .btn.gold');
-  regBtn.disabled = true; regBtn.textContent = 'Creating account…';
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, usernameToEmail(username), pw);
-    currentUser = username;
-    data = emptyData(name);
-    data.username = username;
-    await setDoc(doc(dbase, 'portfolios', cred.user.uid), data);
-    enterApp();
-  } catch (err) {
-    showAuthError(friendlyAuthError(err));
-  } finally {
-    regBtn.disabled = false; regBtn.textContent = 'Create account';
-  }
+  const users = await getUsers();
+  if (users[username]) return showAuthError('That username is already taken.');
+
+  users[username] = simpleHash(pw);
+  await saveUsers(users);
+
+  currentUser = username;
+  data = normaliseData(emptyData(name), name);
+  await save(false);
+  enterApp();
 }
 
 async function login() {
@@ -372,19 +422,20 @@ async function login() {
   const pw = document.getElementById('login-password').value;
   if (!username || !pw) return showAuthError('Enter your username and password.');
 
-  const loginBtn = document.querySelector('#auth-login .btn.gold');
-  loginBtn.disabled = true; loginBtn.textContent = 'Logging in…';
-  try {
-    const cred = await signInWithEmailAndPassword(auth, usernameToEmail(username), pw);
-    currentUser = username;
-    const snap = await getDoc(doc(dbase, 'portfolios', cred.user.uid));
-    data = snap.exists() ? snap.data() : emptyData(username);
-    enterApp();
-  } catch (err) {
-    showAuthError(friendlyAuthError(err));
-  } finally {
-    loginBtn.disabled = false; loginBtn.textContent = 'Log in';
+  const users = await getUsers();
+  if (!users[username] || users[username] !== simpleHash(pw)) {
+    return showAuthError('Incorrect username or password.');
   }
+
+  currentUser = username;
+  const key = 'portfolio:' + currentUser;
+  try {
+    const raw = localStorage.getItem(key);
+    data = normaliseData(raw ? JSON.parse(raw) : emptyData(username), username);
+  } catch (e) {
+    data = emptyData(username);
+  }
+  enterApp();
 }
 
 function enterApp() {
@@ -394,9 +445,8 @@ function enterApp() {
   showTab('profile');
 }
 
-async function logout() {
-  await signOut(auth);
-  currentUser = null; data = null;
+function logout() {
+  currentUser = null; data = null; editState = null;
   document.getElementById('app').style.display = 'none';
   document.getElementById('screen-public').style.display = 'none';
   document.getElementById('screen-auth').style.display = 'block';
@@ -404,19 +454,6 @@ async function logout() {
   document.getElementById('login-password').value = '';
   switchAuthTab('login');
 }
-
-// Keeps you logged in across refreshes / devices — Firebase restores the
-// session automatically, we just need to reload the portfolio data.
-onAuthStateChanged(auth, async (user) => {
-  if (user && !currentUser) {
-    const snap = await getDoc(doc(dbase, 'portfolios', user.uid));
-    if (snap.exists()) {
-      data = snap.data();
-      currentUser = data.username || (user.email || '').split('@')[0];
-      enterApp();
-    }
-  }
-});
 
 let toastTimer = null;
 function showToast(msg, isError) {
@@ -429,10 +466,9 @@ function showToast(msg, isError) {
 }
 
 async function save(showConfirmation) {
+  const key = 'portfolio:' + currentUser;
   try {
-    const uid = auth.currentUser && auth.currentUser.uid;
-    if (!uid) throw new Error('not-logged-in');
-    await setDoc(doc(dbase, 'portfolios', uid), data);
+    localStorage.setItem(key, JSON.stringify(data));
     if (showConfirmation !== false) showToast('Saved');
   } catch (e) {
     if (showConfirmation !== false) showToast('Could not save. Try again.', true);
@@ -442,6 +478,7 @@ async function save(showConfirmation) {
 let activeTab = 'profile';
 function showTab(tab) {
   activeTab = tab;
+  editState = null;
   document.querySelectorAll('.sidebar button').forEach(b => {
     b.classList.toggle('active', b.dataset.tab === tab);
   });
@@ -452,104 +489,165 @@ function render() {
   const el = document.getElementById('content');
   if (activeTab === 'profile') {
     el.innerHTML = `
+      ${profileOverview()}
       <h2>Profile</h2>
       <p class="hint">This is the intro of your portfolio.</p>
-      <label>Full name</label>
-      <input id="f-name" value="${esc(data.name)}" />
-      <label>Role / tagline (e.g. First-year IT Student)</label>
-      <input id="f-role" value="${esc(data.role)}" />
-      <label>Short bio</label>
-      <textarea id="f-bio" rows="5">${esc(data.bio)}</textarea>
-      <button class="btn gold" onclick="saveProfile()">Save profile</button>
+      <div class="card form-card" style="box-shadow:none;">
+        <label>Full name</label>
+        <input id="f-name" value="${esc(data.name)}" />
+        <label>Role / tagline (e.g. First-year IT Student)</label>
+        <input id="f-role" value="${esc(data.role)}" />
+        <label>Short bio</label>
+        <textarea id="f-bio" rows="5">${esc(data.bio)}</textarea>
+        <button class="btn gold" onclick="saveProfile()">Save profile</button>
+      </div>
     `;
   } else if (activeTab === 'education') {
     el.innerHTML = `
-      <h2>Education</h2>
-      <p class="hint">Add your college, degree, and year.</p>
+      <h2>${isEditing('education') ? 'Edit Education' : 'Education'}</h2>
+      <p class="hint">${isEditing('education') ? 'Update the selected education record or cancel to keep it unchanged.' : 'Add your college, degree, and year.'}</p>
       ${listHtml(data.education, e => `
         <div class="info">
           <strong>${esc(e.degree)}</strong>
           <span>${esc(e.college)} &middot; ${esc(e.year)}</span>
         </div>
       `, 'education')}
-      <div class="card" style="margin-top:14px; box-shadow:none;">
+      <div class="card form-card" style="margin-top:14px; box-shadow:none;">
+        ${isEditing('education') ? '<p class="edit-note">Editing this education record. Save your change with Update Education, or choose Cancel.</p>' : ''}
         <div class="field-row">
-          <div><label>Degree / course</label><input id="e-degree" placeholder="B.Tech IT" /></div>
-          <div><label>Year</label><input id="e-year" placeholder="2025 - 2029" /></div>
+          <div><label>Degree / course</label><input id="e-degree" value="${esc(editValue('education', 'degree'))}" placeholder="B.Tech IT" /></div>
+          <div><label>Year</label><input id="e-year" value="${esc(editValue('education', 'year'))}" placeholder="2025 - 2029" /></div>
         </div>
         <label>College / institution</label>
-        <input id="e-college" placeholder="VSB Engineering College" />
-        <button class="btn" onclick="addEducation()">Add education</button>
+        <input id="e-college" value="${esc(editValue('education', 'college'))}" placeholder="VSB Engineering College" />
+        <button class="btn" onclick="addEducation()">${isEditing('education') ? 'Update education' : 'Add education'}</button>
+        ${isEditing('education') ? '<button class="btn ghost" onclick="cancelEdit()">Cancel</button>' : ''}
       </div>
     `;
   } else if (activeTab === 'skills') {
     el.innerHTML = `
-      <h2>Skills</h2>
-      <p class="hint">Add technical or soft skills, one at a time.</p>
-      <div style="margin-bottom:16px;">
-        ${data.skills.map((s, i) => `<span class="tag">${esc(s)}<button onclick="removeItem('skills', ${i})">&times;</button></span>`).join('') || '<span class="empty-note">No skills added yet.</span>'}
-      </div>
-      <div class="card" style="box-shadow:none;">
+      <h2>${isEditing('skills') ? 'Edit Skill' : 'Skills'}</h2>
+      <p class="hint">${isEditing('skills') ? 'Update the selected skill or cancel to keep it unchanged.' : 'Add technical or soft skills, one at a time.'}</p>
+      ${skillsHtml()}
+      <div class="card form-card" style="box-shadow:none;">
+        ${isEditing('skills') ? '<p class="edit-note">Editing this skill. Save your change with Update Skill, or choose Cancel.</p>' : ''}
         <label>Skill name</label>
-        <input id="s-name" placeholder="e.g. Python, Public Speaking" />
-        <button class="btn" onclick="addSkill()">Add skill</button>
+        <input id="s-name" value="${esc(editValue('skills', 'name'))}" placeholder="e.g. Python, Public Speaking" />
+        <button class="btn" onclick="addSkill()">${isEditing('skills') ? 'Update skill' : 'Add skill'}</button>
+        ${isEditing('skills') ? '<button class="btn ghost" onclick="cancelEdit()">Cancel</button>' : ''}
       </div>
     `;
   } else if (activeTab === 'projects') {
     el.innerHTML = `
-      <h2>Projects</h2>
-      <p class="hint">Showcase things you've built.</p>
+      <h2>${isEditing('projects') ? 'Edit Project' : 'Projects'}</h2>
+      <p class="hint">${isEditing('projects') ? 'Update the selected project or cancel to keep it unchanged.' : 'Showcase things you\'ve built.'}</p>
       ${listHtml(data.projects, p => `
         <div class="info">
           <strong>${esc(p.title)}</strong>
           <span>${esc(p.tech)}</span><br/>
           <span>${esc(p.desc)}</span>
-          ${p.link ? `<br/><a href="${esc(p.link)}" target="_blank">${esc(p.link)}</a>` : ''}
+          ${safeUrl(p.link) ? `<br/><a href="${esc(safeUrl(p.link))}" target="_blank" rel="noopener noreferrer">${esc(p.link)}</a>` : ''}
         </div>
       `, 'projects')}
-      <div class="card" style="margin-top:14px; box-shadow:none;">
+      <div class="card form-card" style="margin-top:14px; box-shadow:none;">
+        ${isEditing('projects') ? '<p class="edit-note">Editing this project. Save your change with Update Project, or choose Cancel.</p>' : ''}
         <label>Project title</label>
-        <input id="p-title" placeholder="e.g. Student Portfolio Website" />
+        <input id="p-title" value="${esc(editValue('projects', 'title'))}" placeholder="e.g. Student Portfolio Website" />
         <label>Tech used</label>
-        <input id="p-tech" placeholder="e.g. HTML, CSS, JavaScript" />
+        <input id="p-tech" value="${esc(editValue('projects', 'tech'))}" placeholder="e.g. HTML, CSS, JavaScript" />
         <label>Description</label>
-        <textarea id="p-desc" rows="3" placeholder="What does it do?"></textarea>
+        <textarea id="p-desc" rows="3" placeholder="What does it do?">${esc(editValue('projects', 'desc'))}</textarea>
         <label>Link (optional)</label>
-        <input id="p-link" placeholder="https://github.com/..." />
-        <button class="btn" onclick="addProject()">Add project</button>
+        <input id="p-link" value="${esc(editValue('projects', 'link'))}" placeholder="https://github.com/..." />
+        <button class="btn" onclick="addProject()">${isEditing('projects') ? 'Update project' : 'Add project'}</button>
+        ${isEditing('projects') ? '<button class="btn ghost" onclick="cancelEdit()">Cancel</button>' : ''}
       </div>
     `;
   } else if (activeTab === 'certifications') {
     el.innerHTML = `
-      <h2>Certifications</h2>
-      <p class="hint">Courses, certificates, or workshops you've completed.</p>
+      <h2>${isEditing('certifications') ? 'Edit Certification' : 'Certifications'}</h2>
+      <p class="hint">${isEditing('certifications') ? 'Update the selected certification or cancel to keep it unchanged.' : 'Courses, certificates, or workshops you\'ve completed.'}</p>
       ${listHtml(data.certifications, c => `
         <div class="info">
           <strong>${esc(c.title)}</strong>
           <span>${esc(c.issuer)} &middot; ${esc(c.date)}</span>
         </div>
       `, 'certifications')}
-      <div class="card" style="margin-top:14px; box-shadow:none;">
+      <div class="card form-card" style="margin-top:14px; box-shadow:none;">
+        ${isEditing('certifications') ? '<p class="edit-note">Editing this certification. Save your change with Update Certification, or choose Cancel.</p>' : ''}
         <div class="field-row">
-          <div><label>Certificate title</label><input id="c-title" placeholder="e.g. Python for Everybody" /></div>
-          <div><label>Date</label><input id="c-date" placeholder="March 2026" /></div>
+          <div><label>Certificate title</label><input id="c-title" value="${esc(editValue('certifications', 'title'))}" placeholder="e.g. Python for Everybody" /></div>
+          <div><label>Date</label><input id="c-date" value="${esc(editValue('certifications', 'date'))}" placeholder="March 2026" /></div>
         </div>
         <label>Issued by</label>
-        <input id="c-issuer" placeholder="e.g. Coursera, NPTEL" />
-        <button class="btn" onclick="addCert()">Add certification</button>
+        <input id="c-issuer" value="${esc(editValue('certifications', 'issuer'))}" placeholder="e.g. Coursera, NPTEL" />
+        <button class="btn" onclick="addCert()">${isEditing('certifications') ? 'Update certification' : 'Add certification'}</button>
+        ${isEditing('certifications') ? '<button class="btn ghost" onclick="cancelEdit()">Cancel</button>' : ''}
       </div>
     `;
   }
 }
 
 function listHtml(arr, renderFn, key) {
-  if (!arr.length) return '<p class="empty-note">Nothing added yet.</p>';
-  return arr.map((item, i) => `
+  if (!arr.length) {
+    const labels = { education: 'Add education', projects: 'Add project', certifications: 'Add certification' };
+    const fields = { education: 'e-degree', projects: 'p-title', certifications: 'c-title' };
+    if (key === 'skills') return '<div class="empty-state"><p>No skills added yet. Add one below to start building your portfolio.</p><button class="btn ghost" onclick="focusField(\'s-name\')">+ Add skill</button></div>';
+    return `<div class="empty-state"><p>Nothing added yet. Add your first item below.</p><button class="btn ghost" onclick="focusField('${fields[key]}')">+ ${labels[key]}</button></div>`;
+  }
+  return arr.map(item => `
     <div class="entry">
       ${renderFn(item)}
-      <button class="btn danger" onclick="removeItem('${key}', ${i})">Remove</button>
+      <div class="entry-actions">
+        <button class="btn ghost" onclick="editItem('${key}', '${item.id}')">Edit</button>
+        <button class="btn danger" onclick="requestRemove('${key}', '${item.id}')">Delete</button>
+      </div>
     </div>
   `).join('');
+}
+
+function skillsHtml() {
+  if (!data.skills.length) return '<div class="empty-state"><p>No skills added yet. Add one below to start building your portfolio.</p><button class="btn ghost" onclick="focusField(\'s-name\')">+ Add skill</button></div>';
+  return `<div class="skill-list">${data.skills.map(skill => `
+    <div class="skill-card"><strong>${esc(skill.name)}</strong><div class="entry-actions">
+      <button class="btn ghost" onclick="editItem('skills', '${skill.id}')">Edit</button>
+      <button class="btn danger" onclick="requestRemove('skills', '${skill.id}')">Delete</button>
+    </div></div>`).join('')}</div>`;
+}
+
+function focusField(id) {
+  const field = document.getElementById(id);
+  if (field) { field.focus(); field.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+
+function profileOverview() {
+  const stats = [
+    ['Education', data.education.length], ['Skills', data.skills.length],
+    ['Projects', data.projects.length], ['Certificates', data.certifications.length]
+  ];
+  const completed = (data.name && data.role && data.bio ? 1 : 0) + stats.filter(stat => stat[1] > 0).length;
+  const percentage = Math.round((completed / 5) * 100);
+  return `<section class="overview">
+    <h3>Welcome, ${esc(data.name || currentUser)}</h3>
+    <p>Keep your portfolio current and ready to share.</p>
+    <div class="overview-grid">${stats.map(stat => `<div class="overview-stat"><strong>${stat[1]}</strong><span>${stat[0]}</span></div>`).join('')}</div>
+    <div class="completion"><span>${percentage}% complete</span><div class="completion-bar"><span style="width:${percentage}%"></span></div></div>
+  </section>`;
+}
+
+function isEditing(key) { return editState && editState.key === key; }
+function editValue(key, field) { return isEditing(key) ? (editState.item[field] || '') : ''; }
+function editItem(key, id) {
+  const item = data[key].find(entry => entry.id === id);
+  if (!item) return showToast('Item could not be found.', true);
+  editState = { key, id, item: { ...item } };
+  render();
+}
+function cancelEdit() { editState = null; render(); }
+function safeUrl(value) {
+  if (!value) return '';
+  try { const url = new URL(value); return ['http:', 'https:'].includes(url.protocol) ? url.href : ''; }
+  catch (e) { return ''; }
 }
 
 function esc(s) {
@@ -568,15 +666,23 @@ async function addEducation() {
   const degree = document.getElementById('e-degree').value.trim();
   const college = document.getElementById('e-college').value.trim();
   const year = document.getElementById('e-year').value.trim();
-  if (!degree || !college) return;
-  data.education.push({ degree, college, year });
+  if (!degree || !college) return showToast('Add both degree and college.', true);
+  if (isEditing('education')) {
+    const index = data.education.findIndex(item => item.id === editState.id);
+    if (index !== -1) data.education[index] = { id: editState.id, degree, college, year };
+  } else data.education.push({ id: makeId(), degree, college, year });
+  editState = null;
   await save(); render();
 }
 
 async function addSkill() {
   const name = document.getElementById('s-name').value.trim();
-  if (!name) return;
-  data.skills.push(name);
+  if (!name) return showToast('Enter a skill name.', true);
+  if (isEditing('skills')) {
+    const index = data.skills.findIndex(item => item.id === editState.id);
+    if (index !== -1) data.skills[index] = { id: editState.id, name };
+  } else data.skills.push({ id: makeId(), name });
+  editState = null;
   await save(); render();
 }
 
@@ -585,8 +691,13 @@ async function addProject() {
   const tech = document.getElementById('p-tech').value.trim();
   const desc = document.getElementById('p-desc').value.trim();
   const link = document.getElementById('p-link').value.trim();
-  if (!title) return;
-  data.projects.push({ title, tech, desc, link });
+  if (!title || !tech || !desc) return showToast('Add title, tech used, and description.', true);
+  if (link && !safeUrl(link)) return showToast('Use a valid http:// or https:// link.', true);
+  if (isEditing('projects')) {
+    const index = data.projects.findIndex(item => item.id === editState.id);
+    if (index !== -1) data.projects[index] = { id: editState.id, title, tech, desc, link };
+  } else data.projects.push({ id: makeId(), title, tech, desc, link });
+  editState = null;
   await save(); render();
 }
 
@@ -594,13 +705,43 @@ async function addCert() {
   const title = document.getElementById('c-title').value.trim();
   const issuer = document.getElementById('c-issuer').value.trim();
   const date = document.getElementById('c-date').value.trim();
-  if (!title) return;
-  data.certifications.push({ title, issuer, date });
+  if (!title || !issuer) return showToast('Add certificate title and issuer.', true);
+  if (isEditing('certifications')) {
+    const index = data.certifications.findIndex(item => item.id === editState.id);
+    if (index !== -1) data.certifications[index] = { id: editState.id, title, issuer, date };
+  } else data.certifications.push({ id: makeId(), title, issuer, date });
+  editState = null;
   await save(); render();
 }
 
-async function removeItem(key, index) {
-  data[key].splice(index, 1);
+function requestRemove(key, id) {
+  const item = data[key].find(entry => entry.id === id);
+  if (!item) return showToast('Item could not be found.', true);
+  const labels = { education: 'Education', skills: 'Skill', projects: 'Project', certifications: 'Certification' };
+  const names = { education: item.degree, skills: item.name, projects: item.title, certifications: item.title };
+  pendingDelete = { key, id };
+  document.getElementById('delete-modal-title').textContent = `Remove ${labels[key]}?`;
+  document.getElementById('delete-modal-message').textContent = `Are you sure you want to remove ${names[key]} from your portfolio?`;
+  document.getElementById('delete-modal').classList.add('open');
+}
+
+function closeDeleteModal() {
+  pendingDelete = null;
+  document.getElementById('delete-modal').classList.remove('open');
+}
+
+async function confirmDelete() {
+  if (!pendingDelete) return closeDeleteModal();
+  const { key, id } = pendingDelete;
+  closeDeleteModal();
+  await removeItem(key, id);
+}
+
+async function removeItem(key, id) {
+  const item = data[key].find(entry => entry.id === id);
+  if (!item) return;
+  data[key] = data[key].filter(entry => entry.id !== id);
+  if (editState && editState.id === id) editState = null;
   await save(); render();
 }
 
@@ -630,7 +771,7 @@ function renderPublic() {
     </div>
     <div class="p-section">
       <h3>Skills</h3>
-      ${data.skills.length ? data.skills.map(s => `<span class="tag">${esc(s)}</span>`).join('') : '<p class="empty-note">No skills added yet.</p>'}
+      ${data.skills.length ? data.skills.map(s => `<span class="tag">${esc(s.name)}</span>`).join('') : '<p class="empty-note">No skills added yet.</p>'}
     </div>
     <div class="p-section">
       <h3>Projects</h3>
@@ -651,21 +792,6 @@ function renderPublic() {
     </div>
   `;
 }
-// Inline onclick="..." handlers below need these on window,
-// since a type="module" script doesn't leak names into global scope.
-window.switchAuthTab = switchAuthTab;
-window.login = login;
-window.register = register;
-window.logout = logout;
-window.showPublic = showPublic;
-window.hidePublic = hidePublic;
-window.showTab = showTab;
-window.saveProfile = saveProfile;
-window.addEducation = addEducation;
-window.addSkill = addSkill;
-window.addProject = addProject;
-window.addCert = addCert;
-window.removeItem = removeItem;
 </script>
 </body>
 </html>
