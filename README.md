@@ -1,5 +1,9 @@
 # Student Portfolio Manager
 
+## Live Website
+
+**Open the project here: [ashwin-rt.github.io/Student-Portfolio](https://ashwin-rt.github.io/Student-Portfolio/)**
+
 A beginner-friendly, browser-based portfolio manager for students. It lets each student create an account and manage their profile, education, skills, projects, and certifications without a backend.
 
 ## Features
